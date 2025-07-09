@@ -7,5 +7,6 @@ Here is a primitive diagram of the application's working principle.
 
 Hopefully you got the idea. But in this repo I will implement the Java REST API.
 Here is APIs diagram
-![image](https://github.com/user-attachments/assets/9b652de4-5636-4902-a910-5cc09f9f2fc0)
+![image](https://github.com/user-attachments/assets/fa6e9f49-da61-4dde-b072-773e29cb4774)
+
 
