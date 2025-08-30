@@ -29,19 +29,15 @@ public class RestaurantTableController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public RestaurantTable createTable(@RequestBody RestaurantTable restaurantTable) {
         return restaurantTableService.addRestaurantTable(restaurantTable);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTable(@PathVariable long id) {
-        Optional<RestaurantTable> restauranttable = restaurantTableService.getRestaurantTableById((int) id); // or use long consistently
-        if (restauranttable.isPresent()) {
-            restaurantTableService.deleteRestaurantTable(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        restaurantTableService.deleteRestaurantTable(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

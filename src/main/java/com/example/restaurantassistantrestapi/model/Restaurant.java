@@ -1,12 +1,15 @@
 package com.example.restaurantassistantrestapi.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
