@@ -2,12 +2,11 @@ package com.example.restaurantassistantrestapi.model;
 
 import jakarta.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.data.annotation.PersistenceCreator;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -22,4 +21,6 @@ public class Client {
     private String lastName;
     private Date birthDate;
     private String specialStatus;
+    @Setter(AccessLevel.NONE)
+    private UUID chatId = UUID.randomUUID();
 }

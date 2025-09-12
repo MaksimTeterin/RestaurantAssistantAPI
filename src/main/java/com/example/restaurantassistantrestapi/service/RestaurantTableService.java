@@ -1,5 +1,6 @@
 package com.example.restaurantassistantrestapi.service;
 
+import com.example.restaurantassistantrestapi.model.Restaurant;
 import com.example.restaurantassistantrestapi.model.RestaurantTable;
 import com.example.restaurantassistantrestapi.repository.RestaurantTableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,8 @@ public class RestaurantTableService {
          return restaurantTableRepository.findById(id);
     }
 
-    public RestaurantTable addRestaurantTable(RestaurantTable restaurantTable) {
+    public RestaurantTable addRestaurantTable(RestaurantTable restaurantTable, Restaurant restaurant) {
+        restaurant.addTables(restaurantTable);
         return restaurantTableRepository.save(restaurantTable);
     }
 

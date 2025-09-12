@@ -1,6 +1,7 @@
 package com.example.restaurantassistantrestapi.controller;
 
 import com.example.restaurantassistantrestapi.model.RestaurantTable;
+import com.example.restaurantassistantrestapi.service.RestaurantService;
 import com.example.restaurantassistantrestapi.service.RestaurantTableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,8 @@ public class RestaurantTableController {
 
     @Autowired
     private RestaurantTableService restaurantTableService;
+    @Autowired
+    private RestaurantService restaurantService;
 
     @GetMapping
     public List<RestaurantTable> getAllTables() {
@@ -30,8 +33,8 @@ public class RestaurantTableController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RestaurantTable createTable(@RequestBody RestaurantTable restaurantTable) {
-        return restaurantTableService.addRestaurantTable(restaurantTable);
+    public RestaurantTable createTable(@RequestBody RestaurantTable restaurantTable, @RequestParam int id) {
+        return restaurantTableService.addRestaurantTable(restaurantTable, restaurantService.getRestaurantById(id));
     }
 
     @DeleteMapping("/{id}")

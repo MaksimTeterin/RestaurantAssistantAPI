@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,5 +39,12 @@ public class ClientController {
     public ResponseEntity<Void> deleteClient(@PathVariable long id) {
         clientService.deleteClient(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/getChatId/{id}")
+    public ResponseEntity<String> getChatId(@PathVariable long id) {
+        if (clientService.getClientById(id).isPresent()) {
+            return new ResponseEntity<>(clientService.getUUIDByClientId(id), HttpStatus.OK);
+        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

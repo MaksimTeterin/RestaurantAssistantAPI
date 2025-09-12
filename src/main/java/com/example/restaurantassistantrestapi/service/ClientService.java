@@ -15,7 +15,7 @@ public class ClientService {
     private final ClientRepository clientRepository;
 
     @Autowired
-    public ClientService(ClientRepository clientRepository, RestaurantRepository restaurantRepository) {
+    public ClientService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
 
@@ -34,6 +34,11 @@ public class ClientService {
     public void deleteClient(long id) {
         Client client = clientRepository.findById(id).get();
         clientRepository.delete(client);
+    }
+
+    public String getUUIDByClientId(long id) {
+        Client client = clientRepository.findById(id).get();
+        return (client.getChatId()).toString();
     }
 
 }

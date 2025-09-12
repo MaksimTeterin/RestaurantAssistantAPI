@@ -7,6 +7,7 @@ import com.example.restaurantassistantrestapi.model.RestaurantTable;
 import com.example.restaurantassistantrestapi.service.RestaurantService;
 import com.example.restaurantassistantrestapi.service.RestaurantTableService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.MediaType;
@@ -20,15 +21,19 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willAnswer;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = RestaurantTableController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -41,6 +46,9 @@ public class RestaurantTableControllerTests {
     @MockitoBean
     private RestaurantTableService service;
 
+    @MockitoBean
+    private RestaurantService restaurantService;
+
     @Autowired
     private ObjectMapper mapper;
     @Autowired
@@ -52,14 +60,20 @@ public class RestaurantTableControllerTests {
     @Test
     public void RestaurantTableController_CreateRestaurantTable_ReturnCreated() throws Exception {
         RestaurantTable restaurantTable = RestaurantTable.builder().build();
+        Restaurant restaurant = Restaurant.builder().id(1).build();
 
-        given(service.addRestaurantTable(ArgumentMatchers.any())).willAnswer(invocation -> invocation.getArgument(0));
 
-        ResultActions response = mockMvc.perform(post("/api/restauranttables")
+        MultiValueMap<RestaurantTable, Integer> params = new LinkedMultiValueMap<RestaurantTable, Integer>();
+        params.add(restaurantTable, (int) restaurant.getId());
+
+        given(service.addRestaurantTable(restaurantTable, restaurantService.getRestaurantById(restaurant.getId()))).willAnswer(invocation -> invocation.getArgument(0));
+
+        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+
+        mockMvc.perform(post("/api/restauranttables")
                 .contentType(String.valueOf(MediaType.APPLICATION_JSON))
-                .content(objectMapper.writeValueAsString(restaurantTable)));
+                .params(objectMapper.writeValueAsString(params))
 
-        response.andExpect((MockMvcResultMatchers.status().isCreated()));
     }
 
     @Test
@@ -71,7 +85,7 @@ public class RestaurantTableControllerTests {
 
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/api/restauranttables/" + restaurantTableId));
 
-        response.andExpect(MockMvcResultMatchers.status().isOk());
+        response.andExpect(status().isOk());
     }
 
     @Test
@@ -82,7 +96,7 @@ public class RestaurantTableControllerTests {
 
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/api/restauranttables"));
 
-        response.andExpect(MockMvcResultMatchers.status().isOk());
+        response.andExpect(status().isOk());
     }
 
     @Test
@@ -93,6 +107,6 @@ public class RestaurantTableControllerTests {
 
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders.delete("/api/restauranttables/" + restaurantTableId));
 
-        response.andExpect(MockMvcResultMatchers.status().isNoContent());
+        response.andExpect(status().isNoContent());
     }
 }

@@ -22,8 +22,8 @@ public class RestaurantService {
         return (List<Restaurant>) restaurantRepository.findAll();
     }
 
-    public Optional<Restaurant> getRestaurantById(long id) {
-        return restaurantRepository.findById(id);
+    public Restaurant getRestaurantById(long id) {
+        return  restaurantRepository.findFirstById(id);
     }
 
     public Restaurant addRestaurant(Restaurant restaurant) {
@@ -33,5 +33,10 @@ public class RestaurantService {
     public void deleteRestaurant(long id) {
         Restaurant restaurant = restaurantRepository.findById(id).get();
         restaurantRepository.delete(restaurant);
+    }
+
+    public String getRestaurantsDescriptionById(long id) {
+        Restaurant restaurant = restaurantRepository.findFirstById(id);
+        return restaurant.getGeneralDescription();
     }
 }
