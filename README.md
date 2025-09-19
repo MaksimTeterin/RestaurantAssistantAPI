@@ -1,12 +1,21 @@
-# restaurant_assistant_api
+# RestaurantAssistantAPI
 
-The idea was to create an AI based restaurant assistant, that works vue some chatting system. The assistant should give answers to questions regarding the restaurant he belongs to and provide reservation opportunities.
-Here is a primitive diagram of the application's working principle.
-![image](https://github.com/user-attachments/assets/c38964bd-b3d7-404c-a37f-0f87f381d84f)
+The idea is to create an AI-powered restaurant assistant that works through a chat system. The application is designed to help restaurants save employees’ time by automatically answering guests’ frequently asked questions.
 
+Another feature I’m implementing is the ability to book tables directly through the AI chatbot—convenient, right?
 
-Hopefully you got the idea. But in this repo I will implement the Java REST API.
-Here is APIs diagram
-![image](https://github.com/user-attachments/assets/fa6e9f49-da61-4dde-b072-773e29cb4774)
+The assistant will provide information specific to the restaurant it belongs to and also handle reservations.
 
+This particular repo includes a simple API for creating, reading, updating, and deleting the following entities in the database:
 
+Clients
+
+Restaurants
+
+Restaurant Tables
+
+Bookings
+
+Business Days
+
+I’m still actively developing this project, so stay tuned for updates!
