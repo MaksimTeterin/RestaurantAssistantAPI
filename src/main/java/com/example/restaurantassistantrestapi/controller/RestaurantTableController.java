@@ -33,8 +33,8 @@ public class RestaurantTableController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RestaurantTable createTable(@RequestBody RestaurantTable restaurantTable, @RequestParam int id) {
-        return restaurantTableService.addRestaurantTable(restaurantTable, restaurantService.getRestaurantById(id));
+    public RestaurantTable createTable(@RequestBody RestaurantTable restaurantTable) {
+        return restaurantTableService.addRestaurantTable(restaurantTable);
     }
 
     @DeleteMapping("/{id}")

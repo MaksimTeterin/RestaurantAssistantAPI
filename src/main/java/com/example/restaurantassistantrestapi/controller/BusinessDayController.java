@@ -17,8 +17,6 @@ public class BusinessDayController {
 
     @Autowired
     private BusinessDayService businessDayService;
-    @Autowired
-    private RestaurantService restaurantService;
 
     @GetMapping
     public List<BusinessDay> getBusinessDays() {
@@ -32,15 +30,15 @@ public class BusinessDayController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public BusinessDay createBusinessDay(@RequestBody BusinessDay businessDay, @RequestParam int id) {
-        businessDayService.addBusinessDay(businessDay, restaurantService.getRestaurantById(id));
+    public BusinessDay createBusinessDay(@RequestBody BusinessDay businessDay) {
+        businessDayService.addBusinessDay(businessDay);
         return businessDay;
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBusinessDay(@PathVariable long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteBusinessDay(@PathVariable long id) {
         businessDayService.deleteBusinessDay(id);
-        return ResponseEntity.noContent().build();
     }
 
 }

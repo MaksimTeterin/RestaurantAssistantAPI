@@ -27,8 +27,7 @@ public class BusinessDayService {
         return businessDayRepository.findById(businessDayId);
     }
 
-    public BusinessDay addBusinessDay(BusinessDay businessDay, Restaurant restaurant) {
-        restaurant.addBusinessDays(businessDay);
+    public BusinessDay addBusinessDay(BusinessDay businessDay) {
         return businessDayRepository.save(businessDay);
     }
 

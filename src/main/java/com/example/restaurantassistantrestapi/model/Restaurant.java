@@ -19,27 +19,8 @@ public class Restaurant {
     private String name;
     private String address;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<RestaurantTable> tables;
-
-
-    @ElementCollection
-    private List<Date> nonOperatingDays;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<BusinessDay> businessDays;
-
     @Basic(optional = true)
     private String phone;
 
     private String generalDescription;
-
-
-    public void addTables(RestaurantTable restaurantTable) {
-        this.tables.add(restaurantTable);
-    }
-
-    public void addBusinessDays(BusinessDay businessDay) {
-        this.businessDays.add(businessDay);
-    }
 }

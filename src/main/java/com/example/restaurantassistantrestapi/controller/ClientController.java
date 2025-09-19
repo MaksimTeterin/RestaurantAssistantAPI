@@ -43,8 +43,6 @@ public class ClientController {
 
     @GetMapping("/getChatId/{id}")
     public ResponseEntity<String> getChatId(@PathVariable long id) {
-        if (clientService.getClientById(id).isPresent()) {
             return new ResponseEntity<>(clientService.getUUIDByClientId(id), HttpStatus.OK);
-        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

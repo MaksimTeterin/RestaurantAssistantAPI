@@ -25,11 +25,7 @@ public class RestaurantController {
     @GetMapping("/{id}")
     public ResponseEntity<Restaurant> getRestaurantById(@PathVariable long id) {
         Restaurant restaurant = restaurantService.getRestaurantById(id);
-        if (restaurant == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
             return new ResponseEntity<>(restaurant, HttpStatus.OK);
-        }
     }
 
     @PostMapping
@@ -46,10 +42,6 @@ public class RestaurantController {
 
     @GetMapping("/restaurantsDescription/{id}")
     public ResponseEntity<String> getRestaurantsDescription(@PathVariable long id) {
-        if( restaurantService.getRestaurantsDescriptionById(id) == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
             return new ResponseEntity<>(restaurantService.getRestaurantsDescriptionById(id), HttpStatus.OK);
-        }
     }
 }

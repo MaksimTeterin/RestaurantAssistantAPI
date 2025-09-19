@@ -27,23 +27,15 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @WebMvcTest(controllers = BookingController.class)
-@AutoConfigureMockMvc(addFilters = false)
-@ExtendWith(MockitoExtension.class)
 public class BookingControllerTests {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockitoBean
-    private BookingService service;
-
-    @Autowired
-    private ObjectMapper mapper;
     @Autowired
     private ObjectMapper objectMapper;
 
-
-    @Autowired
+    @MockitoBean
     private BookingService bookingService;
 
 
@@ -51,7 +43,7 @@ public class BookingControllerTests {
     public void BookingContorller_CreateBooking_ReturnCreated() throws Exception {
         Booking booking = Booking.builder().id(1).build();
 
-        given(service.addBooking(ArgumentMatchers.any())).willAnswer(invocation -> invocation.getArgument(0));
+        given(bookingService.addBooking(ArgumentMatchers.any())).willAnswer(invocation -> invocation.getArgument(0));
 
         ResultActions response = mockMvc.perform(post("/api/bookings")
                 .contentType(String.valueOf(MediaType.APPLICATION_JSON))
@@ -87,7 +79,7 @@ public class BookingControllerTests {
     public void BookingController_DeleteBooking_ReturnString() throws Exception {
         int bookingId = 1;
 
-        doNothing().when(service).deleteBooking(bookingId);
+        doNothing().when(bookingService).deleteBooking(bookingId);
 
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders.delete("/api/bookings/" + bookingId));
 

@@ -23,9 +23,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.Mapping;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
@@ -36,8 +38,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = RestaurantTableController.class)
-@AutoConfigureMockMvc(addFilters = false)
-@ExtendWith(MockitoExtension.class)
 public class RestaurantTableControllerTests {
 
     @Autowired
@@ -60,20 +60,14 @@ public class RestaurantTableControllerTests {
     @Test
     public void RestaurantTableController_CreateRestaurantTable_ReturnCreated() throws Exception {
         RestaurantTable restaurantTable = RestaurantTable.builder().build();
-        Restaurant restaurant = Restaurant.builder().id(1).build();
 
+        given(service.addRestaurantTable(ArgumentMatchers.any())).willAnswer(invocation -> invocation.getArgument(0));
 
-        MultiValueMap<RestaurantTable, Integer> params = new LinkedMultiValueMap<RestaurantTable, Integer>();
-        params.add(restaurantTable, (int) restaurant.getId());
-
-        given(service.addRestaurantTable(restaurantTable, restaurantService.getRestaurantById(restaurant.getId()))).willAnswer(invocation -> invocation.getArgument(0));
-
-        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-
-        mockMvc.perform(post("/api/restauranttables")
+        ResultActions response = mockMvc.perform(post("/api/restauranttables")
                 .contentType(String.valueOf(MediaType.APPLICATION_JSON))
-                .params(objectMapper.writeValueAsString(params))
+                .content(mapper.writeValueAsString(restaurantTable)));
 
+        response.andExpect(status().isCreated());
     }
 
     @Test

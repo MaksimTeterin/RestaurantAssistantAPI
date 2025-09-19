@@ -21,7 +21,10 @@ public class BusinessDay {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    private boolean isOperating;
     private DayOfWeek dayOfWeek;
     private Time openTime;
     private Time closeTime;
+    @OneToOne
+    private Restaurant restaurant;
 }

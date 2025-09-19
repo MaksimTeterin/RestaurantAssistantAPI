@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -22,6 +23,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
@@ -29,8 +31,6 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @WebMvcTest(controllers = ClientController.class)
-@AutoConfigureMockMvc(addFilters = false)
-@ExtendWith(MockitoExtension.class)
 public class ClientControllerTests {
 
     @Autowired
@@ -40,10 +40,7 @@ public class ClientControllerTests {
     private ClientService service;
 
     @Autowired
-    private ObjectMapper mapper;
-    @Autowired
     private ObjectMapper objectMapper;
-
 
     @Autowired
     private ClientService clientService;
@@ -94,5 +91,16 @@ public class ClientControllerTests {
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders.delete("/api/clients/" + clientId));
 
         response.andExpect(MockMvcResultMatchers.status().isNoContent());
+    }
+
+    @Test
+    public void ClientController_getChatId_Return_ChatId_If_Client_Is_Present() throws Exception {
+        Client client = Client.builder().id(1).chatId(UUID.randomUUID()).build();
+
+        when(service.getUUIDByClientId(client.getId())).thenReturn(String.valueOf(client.getChatId()));
+
+        ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/api/clients/getChatId/" + client.getId()));
+
+        response.andExpect(MockMvcResultMatchers.status().isOk());
     }
 }
