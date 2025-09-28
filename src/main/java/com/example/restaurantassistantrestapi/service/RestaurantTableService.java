@@ -32,7 +32,6 @@ public class RestaurantTableService {
     }
 
     public void deleteRestaurantTable(long id) {
-        RestaurantTable restaurantTable = restaurantTableRepository.findById(id).get();
-        restaurantTableRepository.delete(restaurantTable);
+        restaurantTableRepository.deleteById(id);
     }
 }

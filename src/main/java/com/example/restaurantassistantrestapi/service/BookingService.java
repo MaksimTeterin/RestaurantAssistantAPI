@@ -31,8 +31,7 @@ public class BookingService {
     }
 
     public void deleteBooking(long id) {
-        Booking booking = bookingRepository.findById(id).get();
-        bookingRepository.delete(booking);
+        bookingRepository.deleteById(id);
     }
 
 }

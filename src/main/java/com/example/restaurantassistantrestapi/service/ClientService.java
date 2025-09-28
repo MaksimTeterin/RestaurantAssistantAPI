@@ -1,5 +1,6 @@
 package com.example.restaurantassistantrestapi.service;
 
+import com.example.restaurantassistantrestapi.exception.ResourceNotFoundException;
 import com.example.restaurantassistantrestapi.model.Client;
 import com.example.restaurantassistantrestapi.repository.ClientRepository;
 import com.example.restaurantassistantrestapi.repository.RestaurantRepository;
@@ -32,12 +33,11 @@ public class ClientService {
     }
 
     public void deleteClient(long id) {
-        Client client = clientRepository.findById(id).get();
-        clientRepository.delete(client);
+        clientRepository.deleteById(id);
     }
 
     public String getUUIDByClientId(long id) {
-        Client client = clientRepository.findById(id).get();
+        Client client = clientRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Client not found with ID: " + id));
         return (client.getChatId()).toString();
     }
 

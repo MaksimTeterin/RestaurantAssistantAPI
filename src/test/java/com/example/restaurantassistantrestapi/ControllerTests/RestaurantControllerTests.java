@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
@@ -58,7 +59,7 @@ public class RestaurantControllerTests {
         int restaurantId = 1;
         Restaurant restaurant = Restaurant.builder().id(restaurantId).build();
 
-        when(restaurantService.getRestaurantById(restaurantId)).thenReturn(restaurant);
+        when(restaurantService.getRestaurantById(restaurantId)).thenReturn(Optional.of(restaurant));
 
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get("/api/restaurants/" + restaurantId));
 

@@ -23,8 +23,8 @@ public class RestaurantController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Restaurant> getRestaurantById(@PathVariable long id) {
-        Restaurant restaurant = restaurantService.getRestaurantById(id);
+    public ResponseEntity<Optional<Restaurant>> getRestaurantById(@PathVariable long id) {
+        Optional<Restaurant> restaurant = restaurantService.getRestaurantById(id);
             return new ResponseEntity<>(restaurant, HttpStatus.OK);
     }
 

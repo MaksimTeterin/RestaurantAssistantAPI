@@ -1,5 +1,6 @@
 package com.example.restaurantassistantrestapi.service;
 
+import com.example.restaurantassistantrestapi.exception.ResourceNotFoundException;
 import com.example.restaurantassistantrestapi.model.BusinessDay;
 import com.example.restaurantassistantrestapi.model.Restaurant;
 import com.example.restaurantassistantrestapi.repository.BusinessDayRepository;
@@ -32,7 +33,6 @@ public class BusinessDayService {
     }
 
     public void deleteBusinessDay(long businessDayId) {
-        BusinessDay businessDay = businessDayRepository.findById(businessDayId).get();
-        businessDayRepository.delete(businessDay);
+        businessDayRepository.deleteById(businessDayId);
     }
 }

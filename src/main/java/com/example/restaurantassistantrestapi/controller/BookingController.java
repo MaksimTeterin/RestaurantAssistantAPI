@@ -23,9 +23,9 @@ public class BookingController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Booking> getBookingById(@PathVariable long id){
-        Optional<Booking> booking = bookingService.getBookingById(id);
-        return booking.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    @ResponseStatus(HttpStatus.OK)
+    public Optional<Booking> getBookingById(@PathVariable long id){
+        return bookingService.getBookingById(id);
     }
 
     @PostMapping
