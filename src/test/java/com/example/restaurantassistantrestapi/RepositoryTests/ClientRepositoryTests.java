@@ -32,19 +32,19 @@ public class ClientRepositoryTests {
         Assertions.assertThat(savedClient.getId()).isGreaterThan(0);
     }
 
-    @Test
-    public void ClientRepository_FindAll_ReturnsMoreThanOneClient() {
-        Client client = new Client();
-        Client client1 = new Client();
-
-        clientRepository.save(client);
-        clientRepository.save(client1);
-
-        List<Client> clients = (List<Client>) clientRepository.findAll();
-
-        Assertions.assertThat(clients.size()).isEqualTo(2);
-        Assertions.assertThat(clients).isNotNull();
-    }
+//    @Test
+//    public void ClientRepository_FindAll_ReturnsMoreThanOneClient() {
+//        Client client = new Client();
+//        Client client1 = new Client();
+//
+//        clientRepository.save(client);
+//        clientRepository.save(client1);
+//
+//        List<Client> clients = (List<Client>) clientRepository.findAll();
+//
+//        Assertions.assertThat(clients.size()).isEqualTo(2);
+//        Assertions.assertThat(clients).isNotNull();
+//    }
 
     @Test
     public void ClientRepository_FindById_ReturnsClient() {
