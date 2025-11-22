@@ -19,8 +19,7 @@ public class Client {
     private long id;
     private String firstName;
     private String lastName;
-    private Date birthDate;
-    private String specialStatus;
+    private String email;
     @Setter(AccessLevel.NONE)
     private UUID chatId = UUID.randomUUID();
 }
