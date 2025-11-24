@@ -42,7 +42,10 @@ public class ClientService {
     }
 
     public boolean clientExistsByEmail(String email) {
-        return clientRepository.findClientsByEmail(email).getEmail() != null;
+        if(clientRepository.findClientsByEmail(email).getEmail() != null) {
+            return true;
+        }
+        return false;
     }
 
 }
