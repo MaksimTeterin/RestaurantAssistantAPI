@@ -41,4 +41,8 @@ public class ClientService {
         return (client.getChatId()).toString();
     }
 
+    public boolean clientExistsByEmail(String email) {
+        return clientRepository.findClientsByEmail(email).getEmail() != null;
+    }
+
 }

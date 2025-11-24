@@ -45,4 +45,9 @@ public class ClientController {
     public ResponseEntity<String> getChatId(@PathVariable long id) {
             return new ResponseEntity<>(clientService.getUUIDByClientId(id), HttpStatus.OK);
     }
+
+    @GetMapping("/clientExistsByEmail/{email}")
+    public ResponseEntity<Boolean> getChatId(@PathVariable String email) {
+        return new ResponseEntity<>(clientService.clientExistsByEmail(email), HttpStatus.OK);
+    }
 }
