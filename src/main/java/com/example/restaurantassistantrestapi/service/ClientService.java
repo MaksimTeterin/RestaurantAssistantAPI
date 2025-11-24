@@ -42,7 +42,7 @@ public class ClientService {
     }
 
     public boolean clientExistsByEmail(String email) {
-        return clientRepository.findClientsByEmail(email).isPresent();
+        return clientRepository.existsClientByEmail(email).isPresent();
     }
 
 
