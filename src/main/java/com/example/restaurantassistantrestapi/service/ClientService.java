@@ -44,4 +44,10 @@ public class ClientService {
     public boolean clientExistsByEmail(String email) {
         return clientRepository.existsClientByEmail(email);
     }
+
+    public Client getClientByEmail(String email) {
+        Client client = clientRepository.findFirstByEmail(email);
+        return (client);
+    }
+
 }

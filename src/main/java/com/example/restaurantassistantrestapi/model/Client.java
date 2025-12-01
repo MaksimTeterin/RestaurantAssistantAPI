@@ -3,10 +3,11 @@ package com.example.restaurantassistantrestapi.model;
 import jakarta.persistence.*;
 
 import lombok.*;
-import org.springframework.data.annotation.PersistenceCreator;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Arrays;
-import java.util.Date;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ public class Client {
     private String firstName;
     private String lastName;
     private String email;
-    @Setter(AccessLevel.NONE)
+    private UserRoles userRoles;
     private UUID chatId = UUID.randomUUID();
 
     public Client(String email, String fullName) { // Constructor to create new Clien entity, when user wants to getToken for the first time
@@ -34,5 +35,6 @@ public class Client {
             lastName = splittedName[splittedName.length - 1];
         }
         this.email = email;
+        this.userRoles = UserRoles.ROLE_USER;
     }
 }
