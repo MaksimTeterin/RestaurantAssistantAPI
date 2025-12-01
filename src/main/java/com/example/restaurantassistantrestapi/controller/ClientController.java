@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -31,8 +32,11 @@ public class ClientController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Client createClient(@RequestBody Client client) {
-        return clientService.addClient(client);
+    public ResponseEntity<Client> createClient(@RequestBody Client client) {
+        if(clientService.clientExistsByEmail(client.getEmail())) {
+            return new ResponseEntity<>(client, HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(client, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
