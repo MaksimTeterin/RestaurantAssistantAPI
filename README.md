@@ -8,7 +8,7 @@ The assistant will provide information specific to the restaurant it belongs to 
 
 This particular repo includes a simple API for creating, reading, updating, and deleting the following entities in the database:
 
-Clients
+Users
 
 Restaurants
 
