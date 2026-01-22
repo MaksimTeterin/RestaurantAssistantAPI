@@ -1,8 +1,7 @@
 package com.example.restaurantassistantrestapi.Config.Auth;
 
-import com.example.restaurantassistantrestapi.model.Client;
-import com.example.restaurantassistantrestapi.model.UserRoles;
-import com.example.restaurantassistantrestapi.service.ClientService;
+import com.example.restaurantassistantrestapi.model.User;
+import com.example.restaurantassistantrestapi.service.UserService;
 import com.example.restaurantassistantrestapi.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -12,8 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -24,14 +21,14 @@ import java.util.List;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private final ClientService clientService;
+    private final UserService userService;
 
     @Value("${JWT_SECRET}")
     private String jwtSecret;
 
-    public JwtAuthenticationFilter(JwtService jwtService, ClientService clientService) {
+    public JwtAuthenticationFilter(JwtService jwtService, UserService userService) {
         this.jwtService = jwtService;
-        this.clientService = clientService;
+        this.userService = userService;
     }
 
     @Override
@@ -42,12 +39,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         System.out.println("token: " + token);
         if(token != null && jwtService.validateToken(token) != null) {
 
-            Client client = clientService.getClientByEmail(jwtService.validateToken(token));
+            User user = userService.getUserByEmail(jwtService.validateToken(token));
 
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                    client,
+                    user,
                     null,
-                    List.of(new SimpleGrantedAuthority(client.getUserRoles().toString()))
+                    List.of(new SimpleGrantedAuthority(user.getUserRoles().toString()))
             );
             SecurityContextHolder.getContext().setAuthentication(authToken);
 
@@ -56,7 +53,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
-
     private String getTokenFromRequest(HttpServletRequest request) {
         System.out.println("getTokenFromRequest: " + request.getRequestURI());
         String header = request.getHeader("Authorization");

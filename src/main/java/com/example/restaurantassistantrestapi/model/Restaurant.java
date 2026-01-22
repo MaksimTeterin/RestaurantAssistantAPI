@@ -23,4 +23,6 @@ public class Restaurant {
     private String phone;
 
     private String generalDescription;
+    @ManyToOne
+    private User restaurantOwner;
 }

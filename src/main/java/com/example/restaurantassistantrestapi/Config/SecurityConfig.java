@@ -16,7 +16,7 @@ import static org.springframework.security.oauth2.core.authorization.OAuth2Autho
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
+@EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;

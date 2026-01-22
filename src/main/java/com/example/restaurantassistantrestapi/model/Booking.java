@@ -18,7 +18,7 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @OneToOne
-    private Client client;
+    private User user;
     private Date bookingStart;
     private int guestNumber;
     @OneToOne

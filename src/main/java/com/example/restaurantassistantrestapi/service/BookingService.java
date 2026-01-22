@@ -3,6 +3,7 @@ package com.example.restaurantassistantrestapi.service;
 import com.example.restaurantassistantrestapi.model.Booking;
 import com.example.restaurantassistantrestapi.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,10 +19,12 @@ public class BookingService {
         this.bookingRepository = bookingRepository;
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'SYSTEM_ADMIN')")
     public List<Booking> getAllBookings() {
         return (List<Booking>) bookingRepository.findAll();
     }
 
+    @PreAuthorize("hasAnyRole('USER', 'SYSTEM_ADMIN')")
     public Optional<Booking> getBookingById(long id) {
         return bookingRepository.findById(id);
     }

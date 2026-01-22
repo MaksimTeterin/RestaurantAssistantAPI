@@ -1,14 +1,10 @@
 package com.example.restaurantassistantrestapi.controller;
 
 import com.example.restaurantassistantrestapi.DTOs.AuthRequestDTO;
-import com.example.restaurantassistantrestapi.model.Client;
-import com.example.restaurantassistantrestapi.service.ClientService;
+import com.example.restaurantassistantrestapi.model.User;
+import com.example.restaurantassistantrestapi.service.UserService;
 import com.example.restaurantassistantrestapi.service.HmacService;
 import com.example.restaurantassistantrestapi.service.JwtService;
-import com.nimbusds.jose.shaded.gson.JsonObject;
-import com.nimbusds.jose.shaded.gson.JsonParser;
-import org.apache.tomcat.util.json.JSONParser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,15 +17,15 @@ import java.util.Map;
 @RequestMapping("/api/auth")
 public class AuthContoroller {
 
-    private ClientService clientService;
+    private UserService userService;
 
     private final HmacService hmacService;
     private final JwtService jwtService;
 
-    public AuthContoroller(HmacService hmacService, JwtService jwtService, ClientService clientService) {
+    public AuthContoroller(HmacService hmacService, JwtService jwtService, UserService userService) {
         this.hmacService = hmacService;
         this.jwtService = jwtService;
-        this.clientService = clientService;
+        this.userService = userService;
     }
 
     @PostMapping("/getToken")
@@ -47,11 +43,11 @@ public class AuthContoroller {
             return ResponseEntity.status(401).body("Timestamp expired");
         }
 
-        if(!clientService.clientExistsByEmail(req.email)){
-            System.out.println("Client with email: " + req.email + " does not exist, creating a new one");
-            clientService.addClient(new Client(req.email, req.fullName));
-            System.out.println("Client with email: " + req.email + " created");
-        } else System.out.println("Client with email: " + req.email + " already exists");
+        if(!userService.userExistsByEmail(req.email)){
+            System.out.println("User with email: " + req.email + " does not exist, creating a new one");
+            userService.addUser(new User(req.email, req.fullName));
+            System.out.println("User with email: " + req.email + " created");
+        } else System.out.println("User with email: " + req.email + " already exists");
 
         String token = jwtService.generateUserToken(req.email);
 

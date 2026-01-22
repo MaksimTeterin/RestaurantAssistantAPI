@@ -3,12 +3,8 @@ package com.example.restaurantassistantrestapi.model;
 import jakarta.persistence.*;
 
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -16,7 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Client {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -26,7 +22,7 @@ public class Client {
     private UserRoles userRoles;
     private UUID chatId = UUID.randomUUID();
 
-    public Client(String email, String fullName) { // Constructor to create new Clien entity, when user wants to getToken for the first time
+    public User(String email, String fullName) { // Constructor to create new Clien entity, when user wants to getToken for the first time
         String[] splittedName = fullName.split(" ");
         this.firstName = splittedName[0];
         if(splittedName.length > 1 && Arrays.stream(splittedName).anyMatch(e -> splittedName[splittedName.length - 1].startsWith("("))) {
