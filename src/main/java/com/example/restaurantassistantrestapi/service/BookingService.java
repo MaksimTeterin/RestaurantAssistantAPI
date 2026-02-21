@@ -1,6 +1,7 @@
 package com.example.restaurantassistantrestapi.service;
 
 import com.example.restaurantassistantrestapi.model.Booking;
+import com.example.restaurantassistantrestapi.model.User;
 import com.example.restaurantassistantrestapi.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -36,5 +37,4 @@ public class BookingService {
     public void deleteBooking(long id) {
         bookingRepository.deleteById(id);
     }
-
 }
