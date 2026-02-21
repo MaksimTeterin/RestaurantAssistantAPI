@@ -25,6 +25,5 @@ public class BusinessDay {
     private DayOfWeek dayOfWeek;
     private Time openTime;
     private Time closeTime;
-    @OneToOne
-    private Restaurant restaurant;
+    private int restaurantId;
 }

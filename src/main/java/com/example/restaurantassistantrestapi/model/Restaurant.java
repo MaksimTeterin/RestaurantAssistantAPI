@@ -18,11 +18,8 @@ public class Restaurant {
     private long id;
     private String name;
     private String address;
-
     @Basic(optional = true)
     private String phone;
-
     private String generalDescription;
-    @ManyToOne
-    private User restaurantOwner;
+    private int ownerId;
 }

@@ -19,6 +19,5 @@ public class RestaurantTable {
 
     private int capacity;
 
-    @ManyToOne
-    private Restaurant restaurant;
+    private int restaurantId;
 }

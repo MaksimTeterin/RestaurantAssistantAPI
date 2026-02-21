@@ -17,10 +17,8 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @OneToOne
-    private User user;
+    private long userId;
     private Date bookingStart;
     private int guestNumber;
-    @OneToOne
-    private RestaurantTable table;
+    private int restaurantTableId;
 }

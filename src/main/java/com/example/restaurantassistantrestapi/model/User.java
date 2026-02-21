@@ -1,10 +1,16 @@
 package com.example.restaurantassistantrestapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -12,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -32,5 +38,23 @@ public class User {
         }
         this.email = email;
         this.userRoles = UserRoles.ROLE_USER;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(userRoles.name()));
+    }
+
+
+    @Override
+    @JsonIgnore
+    public String getPassword() {
+        return "test_password";
+    }
+
+    @Override
+    @JsonIgnore
+    public String getUsername() {
+        return "test_username";
     }
 }
