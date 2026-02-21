@@ -7,8 +7,10 @@ import com.example.restaurantassistantrestapi.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -18,7 +20,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/bookings")
 public class BookingController {
-
     @Autowired
     private BookingService bookingService;
 
@@ -27,32 +28,32 @@ public class BookingController {
         return bookingService.getAllBookings();
     }
 
-    @PreAuthorize("hasAnyRole('USER', 'SYSTEM_ADMIN')")
+    @PreAuthorize(
+            "hasRole('SYSTEM_ADMIN') or @bookingSecurity.isOwner(#id, authentication.principal)"
+    )
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<Booking> getBookingById(@PathVariable long id, @AuthenticationPrincipal User authenticatedUser){
-        if(authenticatedUser.getId() != id && authenticatedUser.getUserRoles() != UserRoles.ROLE_SYSTEM_ADMIN){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Not allowed to access this resource");
-        }
-
+    public Optional<Booking> getBookingById(@PathVariable long id){
         return bookingService.getBookingById(id);
     }
 
-    @PreAuthorize("hasAnyRole('USER', 'SYSTEM_ADMIN')")
+    @PreAuthorize(
+            "#booking.userId == authentication.principal.id or hasRole('SYSTEM_ADMIN')"
+    )
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Booking createBooking(@RequestBody Booking booking, @AuthenticationPrincipal User authenticatedUser){
-        if(booking.getUser() != authenticatedUser && authenticatedUser.getUserRoles() != UserRoles.ROLE_SYSTEM_ADMIN){
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Not allowed to do this");
-        }
-        return bookingService.addBooking(booking);
+    public ResponseEntity<Booking> createBooking(@RequestBody Booking booking){
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(bookingService.addBooking(booking));
     }
 
-
+    @PreAuthorize(
+            "hasRole('SYSTEM_ADMIN') or @bookingSecurity.isOwner(#id, authentication.principal)"
+    )
     @DeleteMapping("/{id}")
-    public ResponseEntity<Booking> deleteBooking(@PathVariable long id, @AuthenticationPrincipal User authenticatedUser){
-        if(bookingService.getBookingById(id).get().getUser().getId() != authenticatedUser.getId() && authenticatedUser.getUserRoles() != UserRoles.ROLE_SYSTEM_ADMIN){}
+    public ResponseEntity<Booking> deleteBooking(@PathVariable long id){
+        Booking booking = bookingService.getBookingById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Booking not found"));
         bookingService.deleteBooking(id);
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
