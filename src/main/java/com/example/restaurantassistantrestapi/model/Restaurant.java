@@ -3,10 +3,6 @@ package com.example.restaurantassistantrestapi.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-
 @Data
 @Entity
 @NoArgsConstructor
