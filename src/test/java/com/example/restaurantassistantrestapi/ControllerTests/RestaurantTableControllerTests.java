@@ -1,5 +1,6 @@
 package com.example.restaurantassistantrestapi.ControllerTests;
 
+import com.example.restaurantassistantrestapi.Config.Auth.JwtAuthenticationFilter;
 import com.example.restaurantassistantrestapi.controller.RestaurantController;
 import com.example.restaurantassistantrestapi.controller.RestaurantTableController;
 import com.example.restaurantassistantrestapi.model.Restaurant;
@@ -38,6 +39,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = RestaurantTableController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class RestaurantTableControllerTests {
 
     @Autowired
@@ -56,6 +58,9 @@ public class RestaurantTableControllerTests {
 
     @Autowired
     private RestaurantTableService restaurantTableService;
+
+    @MockitoBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Test
     public void RestaurantTableController_CreateRestaurantTable_ReturnCreated() throws Exception {

@@ -1,19 +1,17 @@
 package com.example.restaurantassistantrestapi.ControllerTests;
 
+import com.example.restaurantassistantrestapi.Config.Auth.JwtAuthenticationFilter;
 import com.example.restaurantassistantrestapi.controller.BusinessDayController;
 import com.example.restaurantassistantrestapi.model.BusinessDay;
 import com.example.restaurantassistantrestapi.service.BusinessDayService;
-import com.example.restaurantassistantrestapi.service.RestaurantService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.MediaType;
 import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -27,6 +25,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(controllers = BusinessDayController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class BusinessDayControllerTests {
 
     @Autowired
@@ -35,8 +34,14 @@ public class BusinessDayControllerTests {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @MockitoBean
+    @Autowired
     private BusinessDayService businessDayService;
+
+    @MockitoBean
+    private BusinessDayService service;
+
+    @MockitoBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Test
     public void BusinessDayContoller_getBusinessDays_ReturnBusinessDayList() throws Exception {

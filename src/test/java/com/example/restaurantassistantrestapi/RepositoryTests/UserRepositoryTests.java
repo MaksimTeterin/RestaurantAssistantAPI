@@ -1,7 +1,7 @@
 package com.example.restaurantassistantrestapi.RepositoryTests;
 
-import com.example.restaurantassistantrestapi.model.Client;
-import com.example.restaurantassistantrestapi.repository.ClientRepository;
+import com.example.restaurantassistantrestapi.model.User;
+import com.example.restaurantassistantrestapi.repository.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,27 +9,26 @@ import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.util.List;
 import java.util.Optional;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-public class ClientRepositoryTests {
+public class UserRepositoryTests {
     
     @Autowired
-    private ClientRepository clientRepository;
+    private UserRepository userRepository;
 
     @Test
     public void ClientRepository_SaveAll_ReturnsSavedClient() {
         //Arrange
-        Client client = new Client();
+        User user = new User();
 
         //Act
-        Client savedClient = clientRepository.save(client);
+        User savedUser = userRepository.save(user);
 
         //Assert
-        Assertions.assertThat(savedClient).isNotNull();
-        Assertions.assertThat(savedClient.getId()).isGreaterThan(0);
+        Assertions.assertThat(savedUser).isNotNull();
+        Assertions.assertThat(savedUser.getId()).isGreaterThan(0);
     }
 
 //    @Test
@@ -48,34 +47,34 @@ public class ClientRepositoryTests {
 
     @Test
     public void ClientRepository_FindById_ReturnsClient() {
-        Client client = new Client();
+        User user = new User();
 
-        clientRepository.save(client);
+        userRepository.save(user);
 
-        Client clientFoundById = clientRepository.findById((long) client.getId()).get();
+        User userFoundById = userRepository.findById((long) user.getId()).get();
 
-        Assertions.assertThat(clientFoundById).isNotNull();
+        Assertions.assertThat(userFoundById).isNotNull();
     }
 
     @Test
     public void ClientRepository_DeleteById_ReturnsClient() {
-        Client client = new Client();
+        User user = new User();
 
-        clientRepository.save(client);
+        userRepository.save(user);
 
-        clientRepository.deleteById((long) client.getId());
-        Optional<Client> clientReturned = clientRepository.findById((long) client.getId());
+        userRepository.deleteById((long) user.getId());
+        Optional<User> clientReturned = userRepository.findById((long) user.getId());
 
         Assertions.assertThat(clientReturned).isEmpty();
     }
 
     @Test
     public void ClientRepository_save_ReturnsSavedClient() {
-        Client client = new Client();
+        User user = new User();
 
-        clientRepository.save(client);
+        userRepository.save(user);
 
-        Assertions.assertThat(client).isNotNull();
-        Assertions.assertThat(client.getId()).isGreaterThanOrEqualTo(0);
+        Assertions.assertThat(user).isNotNull();
+        Assertions.assertThat(user.getId()).isGreaterThanOrEqualTo(0);
     }
 }

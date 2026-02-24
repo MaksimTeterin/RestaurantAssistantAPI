@@ -35,33 +35,33 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<User> createUser(@RequestBody User user) {
         if(userService.userExistsByEmail(user.getEmail())) {
-            return new ResponseEntity<>(user, HttpStatus.CREATED);
+            return new ResponseEntity<>(user, HttpStatus.CONFLICT);
         }
+        userService.addUser(user);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize(
+            "#id == authentication.principal.id or hasRole('SYSTEM_ADMIN')"
+    )
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> deleteUser(@PathVariable long id, @AuthenticationPrincipal User authenticatedUser) {
-        if(authenticatedUser.getId() != id){
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
+    public ResponseEntity<Void> deleteUser(@PathVariable long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/getChatId/{id}")
-    public ResponseEntity<String> getChatId(@PathVariable long id, @AuthenticationPrincipal User authenticatedUser) {
-        if(authenticatedUser.getId() != id){
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
+    @PreAuthorize(
+            "#id == authentication.principal.id or hasRole('SYSTEM_ADMIN')"
+    )
+    public ResponseEntity<String> getChatId(@PathVariable long id) {
             return new ResponseEntity<>(userService.getUUIDByUserId(id), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('SYSTEM_ADMIN')")
     @GetMapping("/userExistsByEmail/{email}")
-    public ResponseEntity<Boolean> getChatId(@PathVariable String email) {
+    public ResponseEntity<Boolean> userExistsByEmail(@PathVariable String email) {
         return new ResponseEntity<>(userService.userExistsByEmail(email), HttpStatus.OK);
     }
 }

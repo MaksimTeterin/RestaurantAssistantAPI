@@ -25,7 +25,10 @@ public class User implements UserDetails {
     private String firstName;
     private String lastName;
     private String email;
-    private UserRoles userRoles;
+    @NonNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "user_role", nullable = false)
+    private UserRoles userRoles = UserRoles.ROLE_USER;
     private UUID chatId = UUID.randomUUID();
 
     public User(String email, String fullName) { // Constructor to create new Clien entity, when user wants to getToken for the first time
@@ -41,6 +44,7 @@ public class User implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(userRoles.name()));
     }

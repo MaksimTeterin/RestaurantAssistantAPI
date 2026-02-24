@@ -17,9 +17,10 @@ public class BookingController {
     @Autowired
     private BookingService bookingService;
 
+    @PreAuthorize("hasRole('SYSTEM_ADMIN')")
     @GetMapping
-    public List<Booking> getAllBookings(){
-        return bookingService.getAllBookings();
+    public ResponseEntity<List<Booking>> getAllBookings(){
+        return new ResponseEntity<>(bookingService.getAllBookings(), HttpStatus.OK);
     }
 
     @PreAuthorize(
