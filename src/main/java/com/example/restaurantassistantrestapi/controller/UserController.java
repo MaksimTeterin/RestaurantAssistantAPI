@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +25,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('SYSTEM_ADMIN')")
-    public ResponseEntity<User> getUserById(@PathVariable long id) {
+    public ResponseEntity<User> getUserById(@PathVariable int id) {
         Optional<User> user = userService.getUserById(id);
         return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -46,7 +45,7 @@ public class UserController {
             "#id == authentication.principal.id or hasRole('SYSTEM_ADMIN')"
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<Void> deleteUser(@PathVariable long id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable int id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
@@ -55,7 +54,7 @@ public class UserController {
     @PreAuthorize(
             "#id == authentication.principal.id or hasRole('SYSTEM_ADMIN')"
     )
-    public ResponseEntity<String> getChatId(@PathVariable long id) {
+    public ResponseEntity<String> getChatId(@PathVariable int id) {
             return new ResponseEntity<>(userService.getUUIDByUserId(id), HttpStatus.OK);
     }
 

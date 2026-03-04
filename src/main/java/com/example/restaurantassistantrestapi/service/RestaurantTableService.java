@@ -1,6 +1,5 @@
 package com.example.restaurantassistantrestapi.service;
 
-import com.example.restaurantassistantrestapi.model.Restaurant;
 import com.example.restaurantassistantrestapi.model.RestaurantTable;
 import com.example.restaurantassistantrestapi.repository.RestaurantTableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +19,10 @@ public class RestaurantTableService {
     }
 
     public List<RestaurantTable> getAllRestaurantTables() {
-        return (List<RestaurantTable>) restaurantTableRepository.findAll();
+        return restaurantTableRepository.findAll();
     }
 
-    public Optional<RestaurantTable> getRestaurantTableById(long id) {
+    public Optional<RestaurantTable> getRestaurantTableById(int id) {
          return restaurantTableRepository.findById(id);
     }
 
@@ -31,7 +30,7 @@ public class RestaurantTableService {
         return restaurantTableRepository.save(restaurantTable);
     }
 
-    public void deleteRestaurantTable(long id) {
+    public void deleteRestaurantTable(int id) {
         restaurantTableRepository.deleteById(id);
     }
 }

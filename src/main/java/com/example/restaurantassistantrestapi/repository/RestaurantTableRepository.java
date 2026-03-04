@@ -1,7 +1,7 @@
 package com.example.restaurantassistantrestapi.repository;
 
 import com.example.restaurantassistantrestapi.model.RestaurantTable;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RestaurantTableRepository extends CrudRepository<RestaurantTable, Long> {
+public interface RestaurantTableRepository extends JpaRepository<RestaurantTable, Integer> {
 }

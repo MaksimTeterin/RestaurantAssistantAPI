@@ -2,11 +2,8 @@ package com.example.restaurantassistantrestapi.controller;
 
 import com.example.restaurantassistantrestapi.model.BusinessDay;
 import com.example.restaurantassistantrestapi.service.BusinessDayService;
-import com.example.restaurantassistantrestapi.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +22,7 @@ public class BusinessDayController {
     }
 
     @GetMapping("/{id}")
-    public Optional<BusinessDay> getBusinessDayById(@PathVariable long id) {
+    public Optional<BusinessDay> getBusinessDayById(@PathVariable int id) {
         return businessDayService.getBusinessDayById(id);
     }
 
@@ -38,7 +35,7 @@ public class BusinessDayController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteBusinessDay(@PathVariable long id) {
+    public void deleteBusinessDay(@PathVariable int id) {
         businessDayService.deleteBusinessDay(id);
     }
 

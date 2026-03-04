@@ -1,8 +1,6 @@
 package com.example.restaurantassistantrestapi.service;
 
-import com.example.restaurantassistantrestapi.exception.ResourceNotFoundException;
 import com.example.restaurantassistantrestapi.model.BusinessDay;
-import com.example.restaurantassistantrestapi.model.Restaurant;
 import com.example.restaurantassistantrestapi.repository.BusinessDayRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,10 +19,10 @@ public class BusinessDayService {
     }
 
     public List<BusinessDay> getBusinessDays() {
-        return (List<BusinessDay>) businessDayRepository.findAll();
-    };
+        return businessDayRepository.findAll();
+    }
 
-    public Optional<BusinessDay> getBusinessDayById(long businessDayId) {
+    public Optional<BusinessDay> getBusinessDayById(int businessDayId) {
         return businessDayRepository.findById(businessDayId);
     }
 
@@ -32,7 +30,7 @@ public class BusinessDayService {
         return businessDayRepository.save(businessDay);
     }
 
-    public void deleteBusinessDay(long businessDayId) {
+    public void deleteBusinessDay(int businessDayId) {
         businessDayRepository.deleteById(businessDayId);
     }
 }

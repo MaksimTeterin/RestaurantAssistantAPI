@@ -20,10 +20,10 @@ public class UserService {
     }
 
     public List<User> getAllUsers() {
-        return (List<User>) userRepository.findAll();
+        return userRepository.findAll();
     }
 
-    public Optional<User> getUserById(long id) {
+    public Optional<User> getUserById(int id) {
         return userRepository.findById(id);
     }
 
@@ -31,11 +31,11 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public void deleteUser(long id) {
+    public void deleteUser(int id) {
         userRepository.deleteById(id);
     }
 
-    public String getUUIDByUserId(long id) {
+    public String getUUIDByUserId(int id) {
         User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + id));
         return (user.getChatId()).toString();
     }
@@ -45,8 +45,7 @@ public class UserService {
     }
 
     public User getUserByEmail(String email) {
-        User user = userRepository.findFirstByEmail(email);
-        return (user);
+        return (userRepository.findFirstByEmail(email));
     }
 
 }

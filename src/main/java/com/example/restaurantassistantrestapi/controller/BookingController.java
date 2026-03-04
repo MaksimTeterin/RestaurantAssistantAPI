@@ -28,7 +28,7 @@ public class BookingController {
     )
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<Booking> getBookingById(@PathVariable long id){
+    public Optional<Booking> getBookingById(@PathVariable int id){
         return bookingService.getBookingById(id);
     }
 
@@ -45,7 +45,7 @@ public class BookingController {
             "hasRole('SYSTEM_ADMIN') or @bookingSecurity.isOwner(#id, authentication.principal)"
     )
     @DeleteMapping("/{id}")
-    public ResponseEntity<Booking> deleteBooking(@PathVariable long id){
+    public ResponseEntity<Booking> deleteBooking(@PathVariable int id){
         bookingService.getBookingById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Booking not found"));
         bookingService.deleteBooking(id);

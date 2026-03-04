@@ -16,7 +16,7 @@ import java.util.Date;
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private int id;
     private long userId;
     private Date bookingStart;
     private int guestNumber;

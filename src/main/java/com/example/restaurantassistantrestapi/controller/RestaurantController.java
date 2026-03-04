@@ -24,7 +24,7 @@ public class RestaurantController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Restaurant>> getRestaurantById(@PathVariable long id) {
+    public ResponseEntity<Optional<Restaurant>> getRestaurantById(@PathVariable int id) {
         Optional<Restaurant> restaurant = restaurantService.getRestaurantById(id);
             return new ResponseEntity<>(restaurant, HttpStatus.OK);
     }
@@ -38,13 +38,13 @@ public class RestaurantController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('SYSTEM_ADMIN')")
-    public ResponseEntity<Void> deleteRestaurant(@PathVariable long id) {
+    public ResponseEntity<Void> deleteRestaurant(@PathVariable int id) {
         restaurantService.deleteRestaurant(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/restaurantsDescription/{id}")
-    public ResponseEntity<String> getRestaurantsDescription(@PathVariable long id) {
+    public ResponseEntity<String> getRestaurantsDescription(@PathVariable int id) {
             return new ResponseEntity<>(restaurantService.getRestaurantsDescriptionById(id), HttpStatus.OK);
     }
 }

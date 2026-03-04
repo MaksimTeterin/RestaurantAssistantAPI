@@ -21,11 +21,11 @@ public class BookingService {
 
     @PreAuthorize("hasAnyRole('USER', 'SYSTEM_ADMIN')")
     public List<Booking> getAllBookings() {
-        return (List<Booking>) bookingRepository.findAll();
+        return bookingRepository.findAll();
     }
 
     @PreAuthorize("hasAnyRole('USER', 'SYSTEM_ADMIN')")
-    public Optional<Booking> getBookingById(long id) {
+    public Optional<Booking> getBookingById(int id) {
         return bookingRepository.findById(id);
     }
 
@@ -33,7 +33,7 @@ public class BookingService {
         return bookingRepository.save(booking);
     }
 
-    public void deleteBooking(long id) {
+    public void deleteBooking(int id) {
         bookingRepository.deleteById(id);
     }
 }

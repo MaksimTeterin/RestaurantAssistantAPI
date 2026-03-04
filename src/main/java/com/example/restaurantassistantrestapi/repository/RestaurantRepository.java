@@ -1,12 +1,7 @@
 package com.example.restaurantassistantrestapi.repository;
 
 import com.example.restaurantassistantrestapi.model.Restaurant;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
-
-public interface RestaurantRepository  extends CrudRepository<Restaurant, Long> {
-    Optional<Restaurant> getRestaurantById(long id);
-
-    Restaurant findFirstById(long id);
+public interface RestaurantRepository  extends JpaRepository<Restaurant, Integer> {
 }
