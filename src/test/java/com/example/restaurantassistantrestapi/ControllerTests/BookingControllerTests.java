@@ -72,7 +72,7 @@ public class BookingControllerTests {
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
 
-    Booking booking = Booking.builder().id(1L).build();
+    Booking booking = Booking.builder().id(1).build();
 
     @Test
     void getAllBookings_shouldReturnAllBookings() throws Exception {
@@ -84,7 +84,7 @@ public class BookingControllerTests {
 
     @Test
     void createBooking_shouldReturn201() throws Exception {
-        Booking booking = Booking.builder().id(2L).build();
+        Booking booking = Booking.builder().id(2).build();
 
         when(bookingService.addBooking(any(Booking.class))).thenReturn(booking);
 
@@ -97,7 +97,7 @@ public class BookingControllerTests {
 
     @Test
     void getBookingById_shouldReturnBooking() throws Exception {
-        when(bookingService.getBookingById(1L)).thenReturn(Optional.of(booking));
+        when(bookingService.getBookingById(1)).thenReturn(Optional.of(booking));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/bookings/1")).andExpect(status().isOk());
 

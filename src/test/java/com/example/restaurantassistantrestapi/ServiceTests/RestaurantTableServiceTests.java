@@ -58,9 +58,9 @@ public class RestaurantTableServiceTests {
     public void RestaurantTableService_getRestaurantTableById_ReturnsRestaurantTable() {
         RestaurantTable restaurantTable = new RestaurantTable();
 
-        when(restaurantTableRepository.findById((long) restaurantTable.getId())).thenReturn(Optional.of(restaurantTable));
+        when(restaurantTableRepository.findById((int) restaurantTable.getId())).thenReturn(Optional.of(restaurantTable));
 
-        Optional<RestaurantTable> savedRestaurantTable = restaurantTableService.getRestaurantTableById((long) restaurantTable.getId());
+        Optional<RestaurantTable> savedRestaurantTable = restaurantTableService.getRestaurantTableById((int) restaurantTable.getId());
 
         Assertions.assertThat(savedRestaurantTable).isNotNull();
     }
@@ -82,10 +82,10 @@ public class RestaurantTableServiceTests {
         RestaurantTable restaurantTable = new RestaurantTable();
         restaurantTable.setId(1);
 
-        doNothing().when(restaurantTableRepository).deleteById((long) restaurantTable.getId());
+        doNothing().when(restaurantTableRepository).deleteById((int) restaurantTable.getId());
 
-        restaurantTableService.deleteRestaurantTable((long) restaurantTable.getId());
+        restaurantTableService.deleteRestaurantTable((int) restaurantTable.getId());
 
-        verify(restaurantTableRepository, times(1)).deleteById((long) restaurantTable.getId());
+        verify(restaurantTableRepository, times(1)).deleteById((int) restaurantTable.getId());
     }
 }

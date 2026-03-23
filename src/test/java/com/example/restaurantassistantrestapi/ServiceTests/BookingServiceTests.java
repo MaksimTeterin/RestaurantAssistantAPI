@@ -45,7 +45,7 @@ public class BookingServiceTests {
     @Test
     public void getBookingById_shouldReturnBooking() {
         Booking booking = new Booking();
-        booking.setId(1L);
+        booking.setId(1);
 
         when(bookingRepository.findById(booking.getId()))
                 .thenReturn(Optional.of(booking));
@@ -72,7 +72,7 @@ public class BookingServiceTests {
     @Test
     public void deleteBooking_shouldDeleteBooking_and_ReturnNothing(){
         Booking booking = new Booking();
-        booking.setId(1L);
+        booking.setId(1);
 
         doNothing().when(bookingRepository).deleteById(booking.getId());
 

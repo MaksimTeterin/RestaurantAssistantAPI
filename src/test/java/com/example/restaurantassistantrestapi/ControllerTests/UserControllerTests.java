@@ -50,27 +50,27 @@ public class UserControllerTests {
 
     @Test
     void getAllUsers_shouldReturnAllUsers() throws Exception {
-        List<User> users = List.of(User.builder().userRoles(UserRoles.ROLE_USER).id(1L).build());
+        List<User> users = List.of(User.builder().userRoles(UserRoles.ROLE_USER).id(1).build());
         when(userService.getAllUsers()).thenReturn(users);
         mockMvc.perform(MockMvcRequestBuilders.get("/api/users")).andExpect(status().isOk());
     }
 
     @Test
     void getUserById_shouldReturnFoundUserIfItExists() throws Exception {
-        User user = User.builder().userRoles(UserRoles.ROLE_USER).id(1L).build();
-        when(userService.getUserById(1L)).thenReturn(Optional.of(user));
+        User user = User.builder().userRoles(UserRoles.ROLE_USER).id(1).build();
+        when(userService.getUserById(1)).thenReturn(Optional.of(user));
         mockMvc.perform(MockMvcRequestBuilders.get("/api/users/1")).andExpect(status().isOk());
     }
 
     @Test
     void getUserById_shouldReturnNotFoundIfItDoesNotExist() throws Exception {
-        when(userService.getUserById(1L)).thenReturn(Optional.empty());
+        when(userService.getUserById(1)).thenReturn(Optional.empty());
         mockMvc.perform(MockMvcRequestBuilders.get("/api/users/1")).andExpect(status().isNotFound());
     }
 
     @Test
     void createUser_shouldReturnOkIfUserDoesNotExist() throws Exception {
-        User user = User.builder().userRoles(UserRoles.ROLE_USER).id(1L).build();
+        User user = User.builder().userRoles(UserRoles.ROLE_USER).id(1).build();
         given(userService.addUser(ArgumentMatchers.any())).willAnswer(invocation -> invocation.getArgument(0));
         mockMvc.perform(post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -80,7 +80,7 @@ public class UserControllerTests {
 
     @Test
     void createUser_shouldReturnConflictIfUserAlreadyExists() throws Exception {
-        User user = User.builder().userRoles(UserRoles.ROLE_USER).email("test@test.com").id(1L).build();
+        User user = User.builder().userRoles(UserRoles.ROLE_USER).email("test@test.com").id(1).build();
         when(userService.userExistsByEmail(user.getEmail())).thenReturn(true);
         mockMvc.perform(post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -90,14 +90,14 @@ public class UserControllerTests {
 
         @Test
         void deleteUser_shouldReturnNoContentForExistingUser() throws Exception {
-            doNothing().when(userService).deleteUser(1L);
+            doNothing().when(userService).deleteUser(1);
             mockMvc.perform(MockMvcRequestBuilders.delete("/api/users/1"))
                     .andExpect(status().isNoContent());
         }
 
         @Test
         void deleteUser_shouldReturnNotFoundForNonExistentUser() throws Exception {
-            doNothing().when(userService).deleteUser(1L);
+            doNothing().when(userService).deleteUser(1);
             mockMvc.perform(MockMvcRequestBuilders.delete("/api/users/999"))
                     .andExpect(status().isNoContent());
         }

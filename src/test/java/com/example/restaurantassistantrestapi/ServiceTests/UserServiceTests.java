@@ -44,7 +44,7 @@ public class UserServiceTests {
     @Test
     public void getClientById_shouldReturnClient() {
         User user = new User();
-        user.setId(1L);
+        user.setId(1);
 
         when(userRepository.findById(user.getId()))
                 .thenReturn(Optional.of(user));
@@ -58,9 +58,9 @@ public class UserServiceTests {
     @Test
     public void getClientById_shouldReturnNullWhenClientNotFound() {
 
-        when(userRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.empty());
+        when(userRepository.findById(ArgumentMatchers.anyInt())).thenReturn(Optional.empty());
 
-        Optional<User> result = userService.getUserById(1L);
+        Optional<User> result = userService.getUserById(1);
 
         assertFalse(result.isPresent());
 
@@ -81,7 +81,7 @@ public class UserServiceTests {
     @Test
     public void deleteClient_shouldDeleteClient_and_ReturnNothing(){
         User user = new User();
-        user.setId(1L);
+        user.setId(1);
 
         doNothing().when(userRepository).deleteById(user.getId());
 
@@ -93,13 +93,24 @@ public class UserServiceTests {
     @Test
     public void getUUIDByClientId_shouldReturnClientUUID(){
         User user = new User();
-        user.setId(1L);
+        user.setId(1);
 
-        when(userRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.of(user));
+        when(userRepository.findById(ArgumentMatchers.anyInt())).thenReturn(Optional.of(user));
 
         String result = userService.getUUIDByUserId(user.getId());
 
         assertNotNull(result);
+    }
+
+    @Test
+    public void userExistsByEmail_shouldReturnTrueWhenUserExists() {
+        String email = "test@example.com";
+
+        when(userRepository.existsUserByEmail(email)).thenReturn(true);
+
+        boolean result = userService.userExistsByEmail(email);
+
+        assertTrue(result);
     }
 
 }

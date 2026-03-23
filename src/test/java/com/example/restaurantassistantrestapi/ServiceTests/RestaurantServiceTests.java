@@ -45,7 +45,7 @@ public class RestaurantServiceTests {
     @Test
     public void getRestaurantById_shouldReturnRestaurant() {
         Restaurant restaurant = new Restaurant();
-        restaurant.setId(1L);
+        restaurant.setId(1);
 
         when(restaurantRepository.findById(restaurant.getId()))
                 .thenReturn(Optional.of(restaurant));
@@ -59,9 +59,9 @@ public class RestaurantServiceTests {
     @Test
     public void getRestaurantById_shouldReturnNullWhenRestaurantNotFound() {
 
-        when(restaurantRepository.findById(ArgumentMatchers.anyLong())).thenReturn(Optional.empty());
+        when(restaurantRepository.findById(ArgumentMatchers.anyInt())).thenReturn(Optional.empty());
 
-        Optional<Restaurant> result = restaurantService.getRestaurantById(1L);
+        Optional<Restaurant> result = restaurantService.getRestaurantById(1);
 
         assertFalse(result.isPresent());
 
@@ -82,7 +82,7 @@ public class RestaurantServiceTests {
     @Test
     public void deleteRestaurant_shouldDeleteRestaurant_and_ReturnNothing(){
         Restaurant restaurant = new Restaurant();
-        restaurant.setId(1L);
+        restaurant.setId(1);
 
         doNothing().when(restaurantRepository).deleteById(restaurant.getId());
 
@@ -94,10 +94,10 @@ public class RestaurantServiceTests {
     @Test
     public void getRestaurantsDescriptionById_shouldReturnRestaurantsDescription(){
         Restaurant restaurant = new Restaurant();
-        restaurant.setId(1L);
+        restaurant.setId(1);
         restaurant.setGeneralDescription("GeneralDescription");
 
-        when(restaurantRepository.findFirstById(restaurant.getId())).thenReturn(restaurant);
+        when(restaurantRepository.findById(restaurant.getId())).thenReturn(Optional.of(restaurant));
 
         String result = restaurantService.getRestaurantsDescriptionById(restaurant.getId());
 

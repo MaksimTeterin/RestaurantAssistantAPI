@@ -47,7 +47,7 @@ public class BusinessDayServiceTests {
         BusinessDay businessDay = new BusinessDay();
         businessDay.setId(1);
 
-        when(businessDayRepository.findById((long) businessDay.getId()))
+        when(businessDayRepository.findById(businessDay.getId()))
                 .thenReturn(Optional.of(businessDay));
 
         Optional<BusinessDay> result = businessDayService.getBusinessDayById(businessDay.getId());
@@ -74,10 +74,10 @@ public class BusinessDayServiceTests {
         BusinessDay businessDay = new BusinessDay();
         businessDay.setId(1);
 
-        doNothing().when(businessDayRepository).deleteById((long) businessDay.getId());
+        doNothing().when(businessDayRepository).deleteById(businessDay.getId());
 
         businessDayService.deleteBusinessDay(businessDay.getId());
 
-        verify(businessDayRepository, times(1)).deleteById((long) businessDay.getId());
+        verify(businessDayRepository, times(1)).deleteById(businessDay.getId());
     }
 }
