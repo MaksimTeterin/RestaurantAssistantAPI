@@ -15,7 +15,7 @@ import java.util.Date;
 @Builder
 public class Booking {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private long userId;
     private Date bookingStart;

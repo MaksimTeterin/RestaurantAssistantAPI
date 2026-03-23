@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class RestaurantTable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private int capacity;

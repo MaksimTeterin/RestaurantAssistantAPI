@@ -15,9 +15,8 @@ import java.time.DayOfWeek;
 @Builder
 public class BusinessDay {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private boolean isOperating;
     private DayOfWeek dayOfWeek;
     private Time openTime;
     private Time closeTime;

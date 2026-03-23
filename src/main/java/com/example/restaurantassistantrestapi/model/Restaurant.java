@@ -10,12 +10,13 @@ import lombok.*;
 @Builder
 public class Restaurant {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String address;
     @Basic(optional = true)
     private String phone;
+    @Column(length = 1300)
     private String generalDescription;
     private int ownerId;
 }
