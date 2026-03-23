@@ -43,4 +43,15 @@ public class RestaurantTableController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/restaurant/{id}")
+    public ResponseEntity<List<RestaurantTable>> getRestaurantTablesByRestaurantId(@PathVariable int id){
+        System.out.println(restaurantService.getRestaurantById(id));
+        return new ResponseEntity<>(restaurantTableService.getRestaurantTablesByRestaurantId(id), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<RestaurantTable> updateTable(@PathVariable int id, @RequestBody RestaurantTable restaurantTable){
+        return new ResponseEntity<>(restaurantTableService.updateRestaurantTable(id, restaurantTable), HttpStatus.OK);
+    }
+
 }

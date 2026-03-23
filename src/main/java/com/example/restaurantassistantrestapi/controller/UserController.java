@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -62,5 +63,10 @@ public class UserController {
     @GetMapping("/userExistsByEmail/{email}")
     public ResponseEntity<Boolean> userExistsByEmail(@PathVariable String email) {
         return new ResponseEntity<>(userService.userExistsByEmail(email), HttpStatus.OK);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody User user) {
+        return new ResponseEntity<>(userService.updateUser(id, user), HttpStatus.CREATED);
     }
 }

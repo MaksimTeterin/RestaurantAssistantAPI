@@ -4,6 +4,7 @@ import com.example.restaurantassistantrestapi.model.BusinessDay;
 import com.example.restaurantassistantrestapi.service.BusinessDayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,4 +40,15 @@ public class BusinessDayController {
         businessDayService.deleteBusinessDay(id);
     }
 
+
+    @GetMapping("/restaurant/{id}")
+    public ResponseEntity<List<BusinessDay>> getBusinessDaysByRestaurantId(@PathVariable int id){
+        System.out.println(businessDayService.getBusinessDaysByRestaurantId(id));
+        return new ResponseEntity<>(businessDayService.getBusinessDaysByRestaurantId(id), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<BusinessDay> updateBusinessDay(@PathVariable int id, @RequestBody BusinessDay businessDay){
+        return new ResponseEntity<>(businessDayService.updateBusinessDay(id, businessDay), HttpStatus.OK);
+    }
 }
