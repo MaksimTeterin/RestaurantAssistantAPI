@@ -26,6 +26,7 @@ public class GlobalExceptionHandler {
             "Resource not found",
                     LocalDateTime.now()
         );
+        System.out.println(ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
@@ -37,6 +38,7 @@ public class GlobalExceptionHandler {
                 ex.getMessage(),
                 LocalDateTime.now()
         );
+        System.out.println(ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
