@@ -10,7 +10,7 @@ public class BookingSecurity {
     @Autowired
     private BookingService bookingService;
 
-    public boolean isOwner(long bookingId, User user) {
+    public boolean isOwner(int bookingId, User user) {
         return bookingService.getBookingById(bookingId)
                 .map(b -> b.getUserId() == (user.getId()))
                 .orElse(false);
