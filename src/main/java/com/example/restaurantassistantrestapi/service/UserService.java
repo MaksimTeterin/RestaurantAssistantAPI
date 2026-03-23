@@ -48,4 +48,11 @@ public class UserService {
         return (userRepository.findFirstByEmail(email));
     }
 
+    public User updateUser(int id, User user) {
+        User existingUser = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with ID: " + id));
+        existingUser.setUserRoles(user.getUserRoles());
+
+        return userRepository.save(existingUser);
+    }
+
 }

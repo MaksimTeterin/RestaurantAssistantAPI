@@ -13,10 +13,12 @@ import java.util.Optional;
 public class BookingService {
 
     private final BookingRepository bookingRepository;
+    private final UserService userService;
 
     @Autowired
-    public BookingService(BookingRepository bookingRepository) {
+    public BookingService(BookingRepository bookingRepository, UserService userService) {
         this.bookingRepository = bookingRepository;
+        this.userService = userService;
     }
 
     @PreAuthorize("hasAnyRole('USER', 'SYSTEM_ADMIN')")
@@ -33,7 +35,24 @@ public class BookingService {
         return bookingRepository.save(booking);
     }
 
+    public Booking updateBooking(Booking booking) {
+        Booking createdBooking = bookingRepository.findById(booking.getId()).orElseThrow();
+        createdBooking.setBookingStart(booking.getBookingStart());
+        createdBooking.setGuestNumber(booking.getGuestNumber());
+        createdBooking.setRestaurantTableId(booking.getRestaurantTableId());
+
+        return bookingRepository.save(createdBooking);
+    }
+
     public void deleteBooking(int id) {
         bookingRepository.deleteById(id);
+    }
+
+    public List<Booking> getBookingsByUserEmail(String email){
+        if(userService.userExistsByEmail(email))
+        {
+            return bookingRepository.findAllByUserId((userService.getUserByEmail(email).getId()));
+        }
+        throw new RuntimeException("User with email: " + email + " not found");
     }
 }

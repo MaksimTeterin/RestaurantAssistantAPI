@@ -1,5 +1,6 @@
 package com.example.restaurantassistantrestapi.service;
 
+import com.example.restaurantassistantrestapi.exception.ResourceNotFoundException;
 import com.example.restaurantassistantrestapi.model.RestaurantTable;
 import com.example.restaurantassistantrestapi.repository.RestaurantTableRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,12 @@ import java.util.Optional;
 public class RestaurantTableService {
 
     private final RestaurantTableRepository restaurantTableRepository;
+    private final RestaurantService restaurantService;
 
     @Autowired
-    public RestaurantTableService(RestaurantTableRepository restaurantTableRepository) {
+    public RestaurantTableService(RestaurantTableRepository restaurantTableRepository, RestaurantService restaurantService) {
         this.restaurantTableRepository = restaurantTableRepository;
+        this.restaurantService = restaurantService;
     }
 
     public List<RestaurantTable> getAllRestaurantTables() {
@@ -32,5 +35,18 @@ public class RestaurantTableService {
 
     public void deleteRestaurantTable(int id) {
         restaurantTableRepository.deleteById(id);
+    }
+
+    public List<RestaurantTable> getRestaurantTablesByRestaurantId(int restaurantId) {
+        if(restaurantService.getRestaurantById(restaurantId).isPresent()){
+            return restaurantTableRepository.getRestaurantTablesByRestaurantId(restaurantId);
+        }
+        throw new ResourceNotFoundException("Restaurant not found");
+    }
+
+    public RestaurantTable updateRestaurantTable(int id, RestaurantTable restaurantTable) {
+        RestaurantTable existingRestaurantTable = getRestaurantTableById(id).orElseThrow(() -> new ResourceNotFoundException("Restaurant table not found with ID: " + id));
+        existingRestaurantTable.setCapacity(restaurantTable.getCapacity());
+        return restaurantTableRepository.save(existingRestaurantTable);
     }
 }

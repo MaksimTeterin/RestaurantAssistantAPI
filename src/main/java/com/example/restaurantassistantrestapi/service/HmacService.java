@@ -13,6 +13,10 @@ public class HmacService {
     @Value("${RESTAURANTAPIAUTH_SECRET}")
     private String bffSecret;
 
+    public HmacService(@Value("${RESTAURANTAPIAUTH_SECRET}") String bffSecret) {
+        this.bffSecret = bffSecret;
+    }
+
     public boolean verifySignature(String email, long timestamp, String signature) {
         try {
             String data = email + timestamp;

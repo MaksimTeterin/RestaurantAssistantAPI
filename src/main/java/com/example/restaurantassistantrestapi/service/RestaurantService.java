@@ -39,4 +39,21 @@ public class RestaurantService {
         Optional<Restaurant> restaurant = restaurantRepository.findById(id);
         return restaurant.orElseThrow(() -> new ResourceNotFoundException("Restaurant not found")).getGeneralDescription();
     }
+
+    public String getRestaurantDescriptionById(int id) {
+        return restaurantRepository.findById(id).orElseThrow().getGeneralDescription();
+    }
+
+    public Restaurant updateRestaurant(int id, Restaurant restaurant) {
+        Restaurant existingRestaurant = restaurantRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Restaurant not found with ID: " + id));
+
+        existingRestaurant.setGeneralDescription(restaurant.getGeneralDescription());
+        existingRestaurant.setAddress(restaurant.getAddress());
+        existingRestaurant.setPhone(restaurant.getPhone());
+        existingRestaurant.setName(restaurant.getName());
+        existingRestaurant.setOwnerId(restaurant.getOwnerId());
+
+        return restaurantRepository.save(existingRestaurant);
+
+    }
 }
