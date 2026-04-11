@@ -49,4 +49,12 @@ public class RestaurantTableService {
         existingRestaurantTable.setCapacity(restaurantTable.getCapacity());
         return restaurantTableRepository.save(existingRestaurantTable);
     }
+
+    public List<RestaurantTable> findAvailableTablesByCapacityAndRestaurantId(int restaurantId, int guestNumber) {
+        return restaurantTableRepository.findAllByCapacityIsGreaterThanEqualAndRestaurantId(guestNumber, restaurantId);
+    }
+
+    public List<RestaurantTable> findAvailableTables(int restaurantId, int guestNumber) {
+        return restaurantTableRepository.findAllByCapacityIsGreaterThanEqualAndRestaurantId(guestNumber, restaurantId);
+    }
 }
