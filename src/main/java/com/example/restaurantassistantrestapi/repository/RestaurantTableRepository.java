@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface RestaurantTableRepository extends JpaRepository<RestaurantTable, Integer> {
     List<RestaurantTable> getRestaurantTablesByRestaurantId(int restaurantId);
+
+    List<RestaurantTable> findAllByCapacityIsGreaterThanEqualAndRestaurantId(int guestNumber, int restaurantId);
 }
