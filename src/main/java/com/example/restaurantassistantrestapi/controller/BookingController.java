@@ -24,12 +24,21 @@ public class BookingController {
     }
 
     @PreAuthorize(
-            "hasRole('SYSTEM_ADMIN') or @bookingSecurity.isOwner(#id, authentication.principal)"
+            "hasRole('SYSTEM_ADMIN') or @bookingSecurity.isBookingOwner(#id, authentication.principal)"
     )
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Optional<Booking> getBookingById(@PathVariable int id){
         return bookingService.getBookingById(id);
+    }
+
+    @PreAuthorize(
+            "hasRole('SYSTEM_ADMIN') or @bookingSecurity.isRestaurantOwner(#id, authentication.principal)"
+    )
+    @GetMapping("/restaurantId/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Booking> getBookingsByRestaurantId(@PathVariable int id){
+        return bookingService.getBookingsByRestaurantId(id);
     }
 
     @PreAuthorize(
@@ -42,7 +51,7 @@ public class BookingController {
     }
 
     @PreAuthorize(
-            "hasRole('SYSTEM_ADMIN') or @bookingSecurity.isOwner(#id, authentication.principal)"
+            "hasRole('SYSTEM_ADMIN') or @bookingSecurity.isBookingOwner(#id, authentication.principal)"
     )
     @DeleteMapping("/{id}")
     public ResponseEntity<Booking> deleteBooking(@PathVariable int id){
