@@ -1,7 +1,6 @@
 package com.example.restaurantassistantrestapi.exception;
 
 
-import lombok.Builder;
 import lombok.Getter;
 
 
