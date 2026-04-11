@@ -69,4 +69,10 @@ public class UserController {
     public ResponseEntity<User> updateUser(@PathVariable int id, @RequestBody User user) {
         return new ResponseEntity<>(userService.updateUser(id, user), HttpStatus.CREATED);
     }
+
+    @PreAuthorize("hasRole('SYSTEM_ADMIN') or hasRole('RESTAURANT_ADMIN')")
+    @GetMapping("/getUserEmailById/{id}")
+    public ResponseEntity<String> getUserEmailById(@PathVariable int id){
+        return new ResponseEntity<>(userService.getUserById(id).map(User::getEmail).orElse(null), HttpStatus.OK);
+    }
 }
